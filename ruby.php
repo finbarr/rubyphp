@@ -83,14 +83,7 @@ class Ruby {
     return $result;
   }
   static function join($collection, $sep) {
-    $count = count($collection);
-    return self::inject_with_index($collection, '', function($string, $item, $index) use ($count, $sep) {
-      $string .= $item;
-      if($index != $count - 1) {
-        $string .= $sep;
-      }
-      return $string;
-    });
+    return implode($collection,$sep);
   }
 
 }
