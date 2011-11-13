@@ -25,8 +25,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
     
     public function testAnyTrue()
     {
-        $a = array(1, 2);  
-        $check = 3;
+        $a = array(1, 2);
         $b = Ruby::any($a,function($i){return $i == 2;});
         $this->assertEquals($b, true);
     }
