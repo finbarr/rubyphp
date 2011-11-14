@@ -219,7 +219,7 @@ class Ruby {
     }
     function map($function)
     {
-      $this->collect($function);
+      return $this->collect($function);
     }
     function reduce($variable, $function)
     {
