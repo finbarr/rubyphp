@@ -38,6 +38,10 @@ class Ruby {
     }
     return $result;
   }
+  /*
+   *  returns a new collection based on values returned by evaluating $function
+   *  on each item in $collection
+   */
   static function collect($collection, $function) {
     $result = array();
     foreach($collection as $item) {
@@ -45,22 +49,28 @@ class Ruby {
     }
     return $result;
   }
-  static function select($collection, $function) {
-    return self::collect($collection, $function);
-  }
+  /*
+   *  evaluates $function on each item in $collection
+   */
   static function each($collection, $function) {
     foreach($collection as $item) {
       $function($item);
     }
   }
+  /*
+   *  evaluates $function on each index in $collection
+   */
   static function each_index($collection, $function) {
     foreach($collection as $index => $value) {
       $function($index);
     }
   }
+  /*
+   *  evaluates $function on each item and index in $collection
+   */
   static function each_with_index($collection, $function) {
-    foreach($collection as $index => $value) {
-      $function($value, $index);
+    foreach($collection as $index => $item) {
+      $function($item, $index);
     }
   }
   static function inject($collection, $variable, $function) {
@@ -76,14 +86,21 @@ class Ruby {
     return $variable;
   }
   static function join($collection, $sep) {
-    return implode($collection,$sep);
+    return implode($collection, $sep);
   }
+  /*
+   *  see Ruby::collect
+   */
   static function map($collection, $function) {
-    return self::each($collection, $function);
+    return self::collect($collection, $function);
   }
   static function reduce($collection, $variable, $function) {
     return self::inject($collection, $variable, $function);
   }
+  /*
+   *  returns a new collection based on items in $collection for which
+   *  $function evaluates to FALSE
+   */
   static function reject($collection, $function) {
     $result = array();
     foreach($collection as $item) {
@@ -93,34 +110,41 @@ class Ruby {
     }
     return $result;
   }
+  /*
+   *  returns a new collection based on items in $collection for which
+   *  $function evaluates to TRUE
+   */
+  static function select($collection, $function) {
+    $result = array();
+    foreach($collection as $item) {
+      if($function($item)) {
+        $result[] = $item;
+      }
+    }
+    return $result;
+  }
+  static function wrap($collection) {
+    return new Collection($collection);
+  }
   class Collection {
     private $collection;
     function __construct($existing = FALSE) {
       $this->collection = $existing ? $existing : array();
     }
-    static function wrap($collection) {
-      return new Collection($collection);
-    }
-    function collect($function) {
-      return Ruby::collect($this->collection, $function);
-    }
-    function select($function) {
-      return $this->collect($function);
+    function all($function) {
+      return Ruby::all($this->collection, $function);
     }
     function any($function) {
       return Ruby::any($this->collection, $function);
     }
-    function all($function) {
-      return Ruby::all($this->collection, $function);
+    function collect($function) {
+      return Ruby::collect($this->collection, $function);
     }
-    function reject($function) {
-      return Ruby::reject($this->collection, $function);
+    function compact() {
+      return Ruby::compact($this->collection);
     }
     function each($function) {
       Ruby::each($this->collection, $function);
-    }
-    function map($function) {
-      $this->each($function);
     }
     function each_index($function) {
       Ruby::each_index($this->collection, $function);
@@ -131,17 +155,23 @@ class Ruby {
     function inject($variable, $function) {
       return Ruby::inject($this->collection, $variable, $function);
     }
-    function reduce($variable, $function) {
-      return $this->inject($variable, $function);
-    }
     function inject_with_index($variable, $function) {
       return Ruby::inject_with_index($this->collection, $variable, $function);
     }
-    function compact() {
-      return Ruby::compact($this->collection);
-    }
     function join($sep) {
       return Ruby::join($this->collection, $sep);
+    }
+    function map($function) {
+      $this->collect($function);
+    }
+    function reduce($variable, $function) {
+      return $this->inject($variable, $function);
+    }
+    function reject($function) {
+      return Ruby::reject($this->collection, $function);
+    }
+    function select($function) {
+      return Ruby::select($this->collection, $function);
     }
   }
 
