@@ -11,8 +11,8 @@ class CollectionTest extends PHPUnit_Framework_TestCase {
     public function testSelect()
     {
         $a = array(1, 2, 3);  
-        $b = Ruby::select($a,function($i){return $i*2;});
-        $this->assertEquals($b, array(2,4,6));
+        $b = Ruby::select($a,function($i){return ($i%2 == 0);});
+        $this->assertEquals($b, array(2));
     }
     
     public function testAnyFalse()
