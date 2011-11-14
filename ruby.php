@@ -50,6 +50,12 @@ class Ruby {
     return $result;
   }
   /*
+   *  returns a new Ruby::Collection
+   */
+  static function collection() {
+    return new Collection();
+  }
+  /*
    *  evaluates $function on each item in $collection
    */
   static function each($collection, $function) {
@@ -73,12 +79,19 @@ class Ruby {
       $function($item, $index);
     }
   }
+  /*
+   *  evaluates $function on each item in $collection and the last
+   *  value returned from $function (initially the passed $variable)
+   */
   static function inject($collection, $variable, $function) {
     foreach($collection as $item) {
       $variable = $function($variable, $item);
     }
     return $variable;
   }
+  /*
+   *  like Ruby::inject including the index of the item
+   */
   static function inject_with_index($collection, $variable, $function) {
     foreach($collection as $index => $item) {
       $variable = $function($variable, $item, $index);
@@ -94,6 +107,9 @@ class Ruby {
   static function map($collection, $function) {
     return self::collect($collection, $function);
   }
+  /*
+   *  see Ruby::inject
+   */
   static function reduce($collection, $variable, $function) {
     return self::inject($collection, $variable, $function);
   }
@@ -123,6 +139,9 @@ class Ruby {
     }
     return $result;
   }
+  /*
+   *  wraps an existing collection in a Ruby::Collection
+   */
   static function wrap($collection) {
     return new Collection($collection);
   }
@@ -152,6 +171,12 @@ class Ruby {
     function each_with_index($function) {
       Ruby::each_with_index($this->collection, $function);
     }
+    function empty() {
+      return count($this->collection) === 0;
+    }
+    function fetch($index) {
+      return $this->collection[$index];
+    }
     function inject($variable, $function) {
       return Ruby::inject($this->collection, $variable, $function);
     }
@@ -172,6 +197,9 @@ class Ruby {
     }
     function select($function) {
       return Ruby::select($this->collection, $function);
+    }
+    function unwrap() {
+      return $this->collection;
     }
   }
 
