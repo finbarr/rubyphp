@@ -1,7 +1,6 @@
 <?php
 require_once "../ruby.php";
-class CollectionTest extends PHPUnit_Framework_TestCase
-{
+class CollectionTest extends PHPUnit_Framework_TestCase {
     public function testCollect()
     {
         $a = array(1, 2, 3);  
