@@ -46,3 +46,41 @@ The Array wrapper style is neater but more verbose for array access:
     $myArray->fetch('someKey');
     # or
     $myArray->get()['someKey'];
+
+Implemented functionality
+=========================
+
+The following examples assume a wrapped php array containing the values 1,2,3
+
+    $a = Ruby::wrap(array(1,2,3));
+
+all
+===
+
+any
+===
+
+compact
+=======
+
+collect/select
+==============
+
+each/map
+========
+
+each_index
+==========
+
+each_with_index
+===============
+
+inject/reduce
+=============
+
+inject_with_index
+=================
+
+join
+====
+
