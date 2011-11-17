@@ -24,5 +24,12 @@ Array wrapper style
 Which should I use?
 ===================
 
-The Helper method style is a little more verbose but maintains your direct access to the array ($myArray['someKey']).
-The Array wrapper style is neater but more verbose for array access ($myArray->fetch('someKey') or $myArray->get()['someKey']).
+The Helper method style is a little more verbose but maintains your direct access to the array:
+
+    $myArray['someKey'];
+
+The Array wrapper style is neater but more verbose for array access:
+
+    $myArray->fetch('someKey');
+    # or
+    $myArray->get()['someKey'];
