@@ -3,7 +3,20 @@ Ruby functions for PHP
 
 After working with Ruby full time for over a month, I went back to a PHP project and decided something was missing...
 
-This project aims to port some of the lovely ruby methods for working with arrays and hashes to PHP. 
+This project aims to port some of the lovely ruby methods for working with arrays and hashes to PHP.
+
+Sneak preview
+=============
+
+    $myArray = array(1,2,3);
+    $sum = $myArray->inject(0, function($sum, $i){return $sum + $i});
+    echo $sum;
+    # 6
+
+There are implementations for many of the common methods - scroll down to see examples.
+
+Using the code
+==============
 
 There are two ways to use the code: you can treat it as a set of helper methods or as an array wrapper.
 
