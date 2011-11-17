@@ -8,7 +8,7 @@ This project aims to port some of the lovely ruby methods for working with array
 Sneak preview
 =============
 
-    $myArray = array(1,2,3);
+    $myArray = Ruby::wrap(array(1,2,3));
     $sum = $myArray->inject(0, function($sum, $i){return $sum + $i});
     echo $sum;
     # 6
