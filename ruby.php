@@ -40,7 +40,7 @@ class Ruby {
         $result[] = $item;
       }
     }
-    return $result;
+    return Ruby::wrap($result);
   }
   /*
    *  returns a new collection based on values returned by evaluating $function
@@ -48,11 +48,7 @@ class Ruby {
    */
   static function collect($collection, $function)
   {
-    $result = array();
-    foreach($collection as $item) {
-      $result[] = $function($item);
-    }
-    return $result;
+    return Ruby::wrap(array_map($function, $collection));
   }
   /*
    *  returns a new Ruby::Collection
@@ -69,6 +65,7 @@ class Ruby {
     foreach($collection as $item) {
       $function($item);
     }
+    return $collection;
   }
   /*
    *  evaluates $function on each index in $collection
@@ -78,6 +75,7 @@ class Ruby {
     foreach($collection as $index => $value) {
       $function($index);
     }
+    return $collection;
   }
   /*
    *  evaluates $function on each item and index in $collection
@@ -87,6 +85,7 @@ class Ruby {
     foreach($collection as $index => $item) {
       $function($item, $index);
     }
+    return $collection;
   }
   /*
    *  evaluates $function on each item in $collection and the last
@@ -118,14 +117,14 @@ class Ruby {
    */
   static function map($collection, $function)
   {
-    return self::collect($collection, $function);
+    return Ruby::collect($collection, $function);
   }
   /*
    *  see Ruby::inject
    */
   static function reduce($collection, $variable, $function)
   {
-    return self::inject($collection, $variable, $function);
+    return Ruby::inject($collection, $variable, $function);
   }
   /*
    *  returns a new collection based on items in $collection for which
@@ -139,7 +138,7 @@ class Ruby {
         $result[] = $item;
       }
     }
-    return $result;
+    return Ruby::wrap($result);
   }
   /*
    *  returns a new collection based on items in $collection for which
@@ -147,13 +146,7 @@ class Ruby {
    */
   static function select($collection, $function)
   {
-    $result = array();
-    foreach($collection as $item) {
-      if($function($item)) {
-        $result[] = $item;
-      }
-    }
-    return $result;
+    return Ruby::wrap(array_filter($collection, $function));
   }
   /*
    *  wraps an existing collection in a Ruby::Collection
@@ -177,6 +170,12 @@ class Ruby {
     {
       return Ruby::any($this->collection, $function);
     }
+    function clear()
+    {
+      unset($this->collection);
+      $this->collection = array();
+      return $this;
+    }
     function collect($function)
     {
       return Ruby::collect($this->collection, $function);
@@ -188,18 +187,21 @@ class Ruby {
     function each($function)
     {
       Ruby::each($this->collection, $function);
+      return $this;
     }
     function each_index($function)
     {
       Ruby::each_index($this->collection, $function);
+      return $this;
     }
     function each_with_index($function)
     {
       Ruby::each_with_index($this->collection, $function);
+      return $this;
     }
     function empty()
     {
-      return count($this->collection) === 0;
+      return empty($this->collection);
     }
     function fetch($index)
     {
@@ -217,9 +219,22 @@ class Ruby {
     {
       return Ruby::join($this->collection, $sep);
     }
+    function keys()
+    {
+      return Ruby::wrap(array_keys($this->collection));
+    }
+    function length()
+    {
+      return $this->size();
+    }
     function map($function)
     {
       return $this->collect($function);
+    }
+    function push($variable)
+    {
+      $this->collection[] = $variable;
+      return $this;
     }
     function reduce($variable, $function)
     {
@@ -232,6 +247,23 @@ class Ruby {
     function select($function)
     {
       return Ruby::select($this->collection, $function);
+    }
+    function shift()
+    {
+      return array_shift($this->collection);
+    }
+    function size()
+    {
+      return count($this->collection);
+    }
+    function uniq()
+    {
+      return Ruby::wrap(array_unique($this->collection));
+    }
+    function unshift($variable)
+    {
+      array_unshift($this->collection, $variable);
+      return $this;
     }
     function unwrap()
     {

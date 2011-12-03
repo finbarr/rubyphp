@@ -44,7 +44,7 @@ The Array wrapper style is neater but more verbose for array access:
 
     $myArray->fetch('someKey');
     # or
-    $myArray->get()['someKey'];
+    $myArray->unwrap()['someKey'];
 
 Implemented functionality
 =========================
@@ -66,7 +66,7 @@ any
 compact
 =======
 
-    $a->get()[] = NULL; // [1,2,3,NULL]
+    $a->push(NULL); // [1,2,3,NULL]
     $a->compact(); // [1,2,3]
 
 collect/map
