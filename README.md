@@ -56,50 +56,50 @@ The following examples assume a wrapped php array containing the values 1,2,3
 all
 ===
 
-  $a->all(function($i){return is_number($i)}); // TRUE
+    $a->all(function($i){return is_number($i)}); // TRUE
 
 any
 ===
 
-  $a->any(function($i){return $i==1;}); // TRUE
+    $a->any(function($i){return $i==1;}); // TRUE
 
 compact
 =======
 
-  $a->get()[] = NULL; // [1,2,3,NULL]
-  $a->compact(); // [1,2,3]
+    $a->get()[] = NULL; // [1,2,3,NULL]
+    $a->compact(); // [1,2,3]
 
 collect/map
 ==============
 
-  $a->collect(function($i){return $i*2;}); // [2,4,6]
+    $a->collect(function($i){return $i*2;}); // [2,4,6]
 
 each
 ====
 
-  $a->each(function($i){echo $i;}); // prints 1 2 3
+    $a->each(function($i){echo $i;}); // prints 1 2 3
 
 each_with_index
 ===============
 
-  $a->each_with_index(function($i,$d){echo $i + $d;}) // prints 1 3 5
+    $a->each_with_index(function($i,$d){echo $i + $d;}) // prints 1 3 5
 
 inject/reduce
 =============
 
-  $a->inject(0, function($sum,$i){return $sum + $i;}); // 6
+    $a->inject(0, function($sum,$i){return $sum + $i;}); // 6
 
 join
 ====
 
-  $a->join(','); // '1,2,3'
+    $a->join(','); // '1,2,3'
   
 reject
 ======
 
-  $a->reject(function($i){return $i%2==0;}); // [1,3]
+    $a->reject(function($i){return $i%2==0;}); // [1,3]
 
 select
 ======
 
-  $a->select(function($i){return $i%2==0;}); // [2]
+    $a->select(function($i){return $i%2==0;}); // [2]
