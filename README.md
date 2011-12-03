@@ -9,9 +9,8 @@ Sneak preview
 =============
 
     $myArray = Ruby::wrap(array(1,2,3));
-    $sum = $myArray->inject(0, function($sum, $i){return $sum + $i});
-    echo $sum;
-    # 6
+    $sum = $myArray->inject(0, function($sum,$i){return $sum + $i});
+    echo $sum; // prints 6
 
 There are implementations for many of the common methods - scroll down to see examples.
 
@@ -57,30 +56,50 @@ The following examples assume a wrapped php array containing the values 1,2,3
 all
 ===
 
+  $a->all(function($i){return is_number($i)}); // TRUE
+
 any
 ===
+
+  $a->any(function($i){return $i==1;}); // TRUE
 
 compact
 =======
 
-collect/select
+  $a->get()[] = NULL; // [1,2,3,NULL]
+  $a->compact(); // [1,2,3]
+
+collect/map
 ==============
 
-each/map
-========
+  $a->collect(function($i){return $i*2;}); // [2,4,6]
 
-each_index
-==========
+each
+====
+
+  $a->each(function($i){echo $i;}); // prints 1 2 3
 
 each_with_index
 ===============
 
+  $a->each_with_index(function($i,$d){echo $i + $d;}) // prints 1 3 5
+
 inject/reduce
 =============
 
-inject_with_index
-=================
+  $a->inject(0, function($sum,$i){return $sum + $i;}); // 6
 
 join
 ====
 
+  $a->join(','); // '1,2,3'
+  
+reject
+======
+
+  $a->reject(function($i){return $i%2==0;}); // [1,3]
+
+select
+======
+
+  $a->select(function($i){return $i%2==0;}); // [2]
